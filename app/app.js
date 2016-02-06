@@ -24,7 +24,7 @@ slack.on('raw_message', (message) => {
   console.log(new Date(), type, ' message received.');
 
   if(type === 'team_join') {
-    require('./app/controllers/team_join')(message);
+    require('./controllers/team_join')(message);
   }
 
 });
