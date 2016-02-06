@@ -1,3 +1,5 @@
+'use strict';
+
 const Slack = require('slack-client');
 const fs = require('fs');
 
@@ -8,7 +10,7 @@ const slackToken = fs.readFileSync(__dirname + '/../.token', 'utf8').replace(/\n
 
 const slack = new Slack(slackToken, autoReconnect, autoMarkAsRead);
 
-let slackMain = module.exports = {};
+const slackMain = module.exports = {};
 
 slackMain.slack = slack;
 
@@ -19,6 +21,6 @@ slackMain.login = () => {
     console.log(`Connected to ${slack.team.name}`);
   });
   slack.on('error', (err) => {
-      console.error('Error', err);
+    console.error('Error', err);
   });
-}
+};
