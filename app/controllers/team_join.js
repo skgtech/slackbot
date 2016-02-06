@@ -1,5 +1,6 @@
-module.exports = (message) => {
+const slackMain = require('./slack_main');
 
+module.exports = (message) => {
     console.log(message);
 
     var generalChannel = slack.getChannelByName('general');
