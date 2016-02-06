@@ -1,5 +1,5 @@
-'use strict'
+'use strict';
 
-const App = require('./app/app');
+const slackbot = require('./app');
 
-App();
+slackbot();

@@ -1,5 +1,4 @@
-const assert = require('assert');
-const App = require('../app/app');
+'use strict';
 
 describe('App', () => {
     it('should boot', (done) => {
