@@ -13,7 +13,7 @@
     "url": "git+https://github.com/skgtech/slackbot.git"
   },
   "engines": {
-    "node": ">=0.12.0"
+    "node": ">=4.0.0"
   },
   "author": "SKGTech",
   "license": "MIT",
