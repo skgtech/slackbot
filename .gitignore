@@ -1,0 +1,5 @@
+.token
+node_modules/
+build/
+
+npm-debug.log

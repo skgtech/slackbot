@@ -1,0 +1,24 @@
+{
+  "name": "slackbot",
+  "version": "0.1.0",
+  "description": "This is SKGTech Slack Bot implementation.",
+  "main": "boot.js",
+  "scripts": {
+    "start": "node boot.js",
+    "test": "mocha test/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skgtech/slackbot.git"
+  },
+  "author": "SKGTech",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skgtech/slackbot/issues"
+  },
+  "homepage": "https://skgtech.io",
+  "dependencies": {
+    "sinon": "1.17.3",
+    "slack-client": "1.5.1"
+  }
+}
