@@ -1,11 +1,9 @@
 'use strict';
 
-const assert = require('assert');
+var test = require('tape');
 const teamJoinController = require('../../app/controllers/team_join');
 
-describe('Controller', () => {
-  it('should should be function', (done) => {
-    assert.equal(typeof teamJoinController, 'function');
-    done();
-  });
+test('Controller', (t) => {
+  t.ok(teamJoinController instanceof Function, 'should be a function');
+  t.end();
 });

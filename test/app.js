@@ -1,7 +1,9 @@
 'use strict';
 
-describe('App', () => {
-    it('should boot', (done) => {
-        done();
-    });
+var test = require('tape');
+
+
+test('App', (t) => {
+	t.pass('should boot');
+	t.end();
 });
