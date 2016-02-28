@@ -1,6 +1,6 @@
 'use strict';
 
-var test = require('tape');
+const test = require('tape');
 const teamJoinController = require('../../app/controllers/team_join');
 
 test('Controller', (t) => {
