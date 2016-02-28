@@ -7,13 +7,13 @@ const autoReconnect = true;
 const autoMarkAsRead = true;
 
 try{
-	const slackToken = fs.readFileSync(__dirname + '/../.token', 'utf8').replace(/\n$/, '');
+  const slackToken = fs.readFileSync(__dirname + '/../.token', 'utf8').replace(/\n$/, '');
 }
 catch(e){
-	if(e.code=='ENOENT'){
-		console.log('There is no token in the root directory')
-	}
-	return;
+  if(e.code=='ENOENT'){
+    console.log('There is no token in the root directory')
+  }
+  return;
 }
 
 const slack = new Slack(slackToken, autoReconnect, autoMarkAsRead);

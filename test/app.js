@@ -4,6 +4,6 @@ const test = require('tape');
 
 
 test('App', (t) => {
-	t.pass('should boot');
-	t.end();
+  t.pass('should boot');
+  t.end();
 });
