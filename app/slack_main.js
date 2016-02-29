@@ -1,27 +1,42 @@
 'use strict';
 
-const Slack = require('slack-client');
+const Slack = require('@slack/client');
+
+const RtmClient = Slack.RtmClient;
+const WebClient = Slack.WebClient;
+const DataStore = Slack.MemoryDataStore;
+
+const CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
+
 const fs = require('fs');
 
-const autoReconnect = true;
-const autoMarkAsRead = true;
+const simpleLatest = true;
+const noUnreads = true;
+
 
 try{
   const slackToken = fs.readFileSync(__dirname + '/../.token', 'utf8').replace(/\n$/, '');
 
-  const slack = new Slack(slackToken, autoReconnect, autoMarkAsRead);
+  const rtm = new RtmClient(slackToken,simpleLatest,noUnreads);
+  const web = new WebClient(slackToken);
+  const dataStore = new DataStore();
 
-  const slackMain = module.exports = {};
+  const slackMain = module.exports = {};  
 
-  slackMain.slack = slack;
+  slackMain.slack = {
+    rtm,
+    web,
+    dataStore
+  };
 
-  slackMain.login = () => {
-    slack.login();
+  slackMain.start = () => {
+    rtm.start();
 
-    slack.on('open', () => {
-      console.log(`Connected to ${slack.team.name}`);
+    rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (rtmStartData) => {
+      console.log(`Connected to ${rtmStartData.team.name}`);
+      dataStore.cacheRtmStart(rtmStartData);
     });
-    slack.on('error', (err) => {
+    rtm.on(CLIENT_EVENTS.RTM.UNABLE_TO_RTM_START, (err) => {
       console.error('Error', err);
     });
   };

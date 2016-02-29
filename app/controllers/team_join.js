@@ -1,15 +1,16 @@
 'use strict';
 
-const slackClient = require('../slack_main').slack;
+const rtmClient = require('../slack_main').slack.rtm;
+const webClient = require('../slack_main').slack.web;
+const dataStore = require('../slack_main').slack.dataStore;
 
 module.exports = (message) => {
-  console.log(message);
 
-  var generalChannel = slackClient.getChannelByName('general');
-  var codingChannel = slackClient.getChannelByName('coding');
-  var skgtechChannel = slackClient.getChannelByName('skgtech_io');
-  var jobsChannel = slackClient.getChannelByName('jobs');
-  var devitChannel = slackClient.getChannelByName('devitconf');
+  var generalChannel = dataStore.getChannelByName('general');
+  var codingChannel = dataStore.getChannelByName('coding');
+  var skgtechChannel = dataStore.getChannelByName('skgtech_io');
+  var jobsChannel = dataStore.getChannelByName('jobs');
+  var devitChannel = dataStore.getChannelByName('devitconf');
 
   var user = message.user;
 
@@ -24,5 +25,9 @@ module.exports = (message) => {
                  `* Official SKGTech site needs your help. Give us a hand: https://github.com/skgtech/skgtech.github.io/issues ` +
                  `* SKG Together event: Got a team in Thessaloniki? Tell us about it.`;
 
-  generalChannel.send(response);
+  webClient.im.open(message.user,function(err,data){
+    rtmClient.sendMessage(response,data.channel.id,function(){
+      console.log("message succesfully sent to user "+message.user);
+    })
+  });
 };
