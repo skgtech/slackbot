@@ -46,5 +46,8 @@ catch(e){
   if(e.code=='ENOENT'){
     console.log('There is no token in the root directory')
   }
+  else{
+    console.log(e);
+  }
   return;
 }

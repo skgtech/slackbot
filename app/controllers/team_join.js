@@ -25,9 +25,9 @@ module.exports = (message) => {
                  `* Official SKGTech site needs your help. Give us a hand: https://github.com/skgtech/skgtech.github.io/issues ` +
                  `* SKG Together event: Got a team in Thessaloniki? Tell us about it.`;
 
-  webClient.im.open(message.user,function(err,data){
+  webClient.dm.open(user.id,function(err,data){
     rtmClient.sendMessage(response,data.channel.id,function(){
-      console.log("message succesfully sent to user "+message.user);
+      console.log("message succesfully sent to user "+user.name);
     })
   });
 };

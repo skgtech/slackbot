@@ -11,6 +11,7 @@ module.exports = () => {
    * Main router that will delegate messages to controllers
    */
   rtmClient.on(RTM_EVENTS.TEAM_JOIN,(message) => {
+  	console.log(message);
     require('./controllers/team_join')(message);
   });
 };
