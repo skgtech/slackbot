@@ -4,6 +4,8 @@ const test = require('tape');
 const fs = require('fs');
 const Slack = require('@slack/client');
 const RtmClient = Slack.RtmClient;
+const WebClient = Slack.WebClient;
+const DataStore = Slack.MemoryDataStore;
 const CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 let token;
 
@@ -18,5 +20,10 @@ test('App', (t) => {
   else{
     t.fail('should have token');
   }
-  t.end();
+
+  const web = new WebClient(token);
+  web.auth.test(function(err,data){
+    t.ok(data.ok,'token should be valid');
+    t.end();
+  })
 });
