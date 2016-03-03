@@ -6,12 +6,12 @@ const dataStore = require('../slack_main').slack.dataStore;
 
 module.exports = (message) => {
 
-  var user = dataStore.getUserById(message.user);
+  let user = dataStore.getUserById(message.user);
 
   /*
    * @see https://api.slack.com/docs/formatting
    */
-  var response = `You said: ` +message.text;
+  let response = `You said: ` +message.text;
 
   webClient.dm.open(user.id,function(err,data){
     rtmClient.sendMessage(response,data.channel.id,function(){
