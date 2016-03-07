@@ -6,7 +6,7 @@
   "main": "boot.js",
   "scripts": {
     "start": "node boot.js",
-    "test": "mocha test/**/*.js"
+    "test": "tape test/**/*.js | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -22,9 +22,11 @@
   },
   "homepage": "https://skgtech.io",
   "dependencies": {
-    "slack-client": "1.5.1"
+    "@slack/client": "^2.0.6"
   },
   "devDependencies": {
-    "sinon": "1.17.3"
+    "sinon": "1.17.3",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.4.0"
   }
 }

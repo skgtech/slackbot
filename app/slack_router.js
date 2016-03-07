@@ -1,24 +1,20 @@
 'use strict';
 
-var teamJoin = require('./controllers/team_join');
-var slackClient = require('./slack_main').slack;
+const Controllers = require('./controllers');
+const rtmClient = require('./slack_main').slack.rtm;
+const webClient = require('./slack_main').slack.web;
+const dataStore = require('./slack_main').slack.dataStore;
+const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 
 module.exports = () => {
   /*
    * Main router that will delegate messages to controllers
    */
-  slackClient.on('raw_message', (message) => {
+  rtmClient.on(RTM_EVENTS.TEAM_JOIN,(message) => {
+    Controllers.teamJoin(message);
+  });
 
-    let type = message.type;
-
-    console.log(new Date(), type, ' message received.');
-
-    /**
-     * @TODO: parse the controllers/ dir and build the routes
-     */
-    if (type === 'team_join') {
-      require('./controllers/team_join')(message);
-    }
-
+  rtmClient.on(RTM_EVENTS.MESSAGE,(message) => {
+    Controllers.message(message);
   });
 };

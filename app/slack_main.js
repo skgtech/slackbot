@@ -1,26 +1,53 @@
 'use strict';
 
-const Slack = require('slack-client');
+const Slack = require('@slack/client');
+
+const RtmClient = Slack.RtmClient;
+const WebClient = Slack.WebClient;
+const DataStore = Slack.MemoryDataStore;
+
+const CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
+
 const fs = require('fs');
 
-const autoReconnect = true;
-const autoMarkAsRead = true;
+const simpleLatest = true;
+const noUnreads = true;
 
-const slackToken = fs.readFileSync(__dirname + '/../.token', 'utf8').replace(/\n$/, '');
 
-const slack = new Slack(slackToken, autoReconnect, autoMarkAsRead);
+try{
+  const slackToken = fs.readFileSync(__dirname + '/../.token', 'utf8').replace(/\n$/, '');
 
-const slackMain = module.exports = {};
+  const rtm = new RtmClient(slackToken,simpleLatest,noUnreads);
+  const web = new WebClient(slackToken);
+  const dataStore = new DataStore();
 
-slackMain.slack = slack;
+  const slackMain = module.exports = {};  
 
-slackMain.login = () => {
-  slack.login();
+  slackMain.slack = {
+    rtm,
+    web,
+    dataStore
+  };
 
-  slack.on('open', () => {
-    console.log(`Connected to ${slack.team.name}`);
-  });
-  slack.on('error', (err) => {
-    console.error('Error', err);
-  });
-};
+  slackMain.start = () => {
+    rtm.start();
+
+    rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (rtmStartData) => {
+      console.log(`Connected to ${rtmStartData.team.name}`);
+      dataStore.cacheRtmStart(rtmStartData);
+    });
+    rtm.on(CLIENT_EVENTS.RTM.UNABLE_TO_RTM_START, (err) => {
+      console.error('Error', err);
+    });
+  };
+
+}
+catch(e){
+  if(e.code=='ENOENT'){
+    console.log('There is no token in the root directory')
+  }
+  else{
+    console.log(e);
+  }
+  return;
+}
