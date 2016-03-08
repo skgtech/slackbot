@@ -2,5 +2,4 @@
 
 const slackbot = require('./app');
 
-slackbot();
-
+slackbot.start();

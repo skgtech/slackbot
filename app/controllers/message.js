@@ -1,8 +1,7 @@
 'use strict';
 
-const rtmClient = require('../slack_main').slack.rtm;
-const webClient = require('../slack_main').slack.web;
-const dataStore = require('../slack_main').slack.dataStore;
+const rtmClient = require('../index').rtmClient;
+const dataStore = rtmClient.dataStore;
 
 module.exports = (message) => {
 
@@ -11,11 +10,10 @@ module.exports = (message) => {
   /*
    * @see https://api.slack.com/docs/formatting
    */
-  let response = `You said: ` +message.text;
+  let response = `<@${user.id}|${user.name}> what?`;
 
-  webClient.dm.open(user.id,function(err,data){
-    rtmClient.sendMessage(response,data.channel.id,function(){
-      console.log("message succesfully sent to user "+user.name);
-    })
+  rtmClient.sendMessage(response, message.channel, function() {
+
+    console.log('Message succesfully sent to user ' + user.name);
   });
 };
